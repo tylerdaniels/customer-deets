@@ -31,7 +31,7 @@ resource "aws_codepipeline" "pipeline" {
     name = "Test"
 
     action {
-      name             = "Validate"
+      name             = "React_Validate"
       category         = "Test"
       owner            = "AWS"
       provider         = "CodeBuild"
@@ -44,7 +44,7 @@ resource "aws_codepipeline" "pipeline" {
       }
     }
     action {
-      name             = "Test"
+      name             = "React_Test"
       category         = "Test"
       owner            = "AWS"
       provider         = "CodeBuild"
@@ -56,22 +56,61 @@ resource "aws_codepipeline" "pipeline" {
         ProjectName = aws_codebuild_project.frontend_test.name
       }
     }
+    action {
+      name             = "Lambda_Validate"
+      category         = "Test"
+      owner            = "AWS"
+      provider         = "CodeBuild"
+      input_artifacts  = ["source_output"]
+      output_artifacts = []
+      version          = "1"
+
+      configuration = {
+        ProjectName = aws_codebuild_project.backend_validate.name
+      }
+    }
+    action {
+      name             = "Lambda_Test"
+      category         = "Test"
+      owner            = "AWS"
+      provider         = "CodeBuild"
+      input_artifacts  = ["source_output"]
+      output_artifacts = []
+      version          = "1"
+
+      configuration = {
+        ProjectName = aws_codebuild_project.backend_test.name
+      }
+    }
   }
 
   stage {
     name = "Build"
 
     action {
-      name             = "Build"
+      name             = "React_Build"
       category         = "Build"
       owner            = "AWS"
       provider         = "CodeBuild"
       input_artifacts  = ["source_output"]
-      output_artifacts = ["build_output"]
+      output_artifacts = ["react_output"]
       version          = "1"
 
       configuration = {
         ProjectName = aws_codebuild_project.frontend_build.name
+      }
+    }
+    action {
+      name             = "Lambda_Build"
+      category         = "Build"
+      owner            = "AWS"
+      provider         = "CodeBuild"
+      input_artifacts  = ["source_output"]
+      output_artifacts = ["lambda_output"]
+      version          = "1"
+
+      configuration = {
+        ProjectName = aws_codebuild_project.backend_build.name
       }
     }
   }

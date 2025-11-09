@@ -9,4 +9,4 @@ phases:
       - npm install
   build:
     commands:
-      - npm lint
+      - npm run lint

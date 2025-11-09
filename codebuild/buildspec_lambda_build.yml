@@ -5,7 +5,7 @@ phases:
     runtime-versions:
       nodejs: 24
     commands:
-      - cd frontend
+      - cd backend
       - npm install
   build:
     commands:

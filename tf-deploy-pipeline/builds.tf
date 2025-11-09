@@ -1,6 +1,6 @@
 resource "aws_codebuild_project" "frontend_validate" {
   name         = "${local.application_name}-frontend-validate"
-  description  = "Validate JavaScript project"
+  description  = "Validate React project"
   service_role = aws_iam_role.codepipeline_role.arn
 
   artifacts {
@@ -26,7 +26,7 @@ resource "aws_codebuild_project" "frontend_validate" {
 
 resource "aws_codebuild_project" "frontend_test" {
   name         = "${local.application_name}-frontend-test"
-  description  = "Test JavaScript project"
+  description  = "Test React project"
   service_role = aws_iam_role.codepipeline_role.arn
 
   artifacts {
@@ -52,7 +52,7 @@ resource "aws_codebuild_project" "frontend_test" {
 
 resource "aws_codebuild_project" "frontend_build" {
   name         = "${local.application_name}-frontend-build"
-  description  = "Build JavaScript project"
+  description  = "Build React project"
   service_role = aws_iam_role.codepipeline_role.arn
 
   artifacts {
@@ -73,5 +73,83 @@ resource "aws_codebuild_project" "frontend_build" {
   source {
     type      = "CODEPIPELINE"
     buildspec = "codebuild/buildspec_react_build.yml"
+  }
+}
+
+resource "aws_codebuild_project" "backend_validate" {
+  name         = "${local.application_name}-backend-validate"
+  description  = "Validate Lambda project"
+  service_role = aws_iam_role.codepipeline_role.arn
+
+  artifacts {
+    type = "CODEPIPELINE"
+  }
+
+  environment {
+    compute_type = "BUILD_GENERAL1_SMALL"
+    image        = "aws/codebuild/standard:7.0"
+    type         = "LINUX_CONTAINER"
+
+    environment_variable {
+      name  = "NODE_ENV"
+      value = "test"
+    }
+  }
+
+  source {
+    type      = "CODEPIPELINE"
+    buildspec = "codebuild/buildspec_lambda_validate.yml"
+  }
+}
+
+resource "aws_codebuild_project" "backend_test" {
+  name         = "${local.application_name}-backend-test"
+  description  = "Test Lambda project"
+  service_role = aws_iam_role.codepipeline_role.arn
+
+  artifacts {
+    type = "CODEPIPELINE"
+  }
+
+  environment {
+    compute_type = "BUILD_GENERAL1_SMALL"
+    image        = "aws/codebuild/standard:7.0"
+    type         = "LINUX_CONTAINER"
+
+    environment_variable {
+      name  = "NODE_ENV"
+      value = "test"
+    }
+  }
+
+  source {
+    type      = "CODEPIPELINE"
+    buildspec = "codebuild/buildspec_lambda_test.yml"
+  }
+}
+
+resource "aws_codebuild_project" "backend_build" {
+  name         = "${local.application_name}-backend-build"
+  description  = "Build Lambda project"
+  service_role = aws_iam_role.codepipeline_role.arn
+
+  artifacts {
+    type = "CODEPIPELINE"
+  }
+
+  environment {
+    compute_type = "BUILD_GENERAL1_SMALL"
+    image        = "aws/codebuild/standard:7.0"
+    type         = "LINUX_CONTAINER"
+
+    environment_variable {
+      name  = "NODE_ENV"
+      value = "production"
+    }
+  }
+
+  source {
+    type      = "CODEPIPELINE"
+    buildspec = "codebuild/buildspec_lambda_build.yml"
   }
 }
