@@ -1,0 +1,23 @@
+{
+  "name": "customer-deets-backend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js --format=esm --tsconfig=tsconfig.app.json",
+    "lint": "tsc",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.157",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.10.0",
+    "esbuild": "^0.25.12",
+    "jest": "^30.2.0",
+    "ts-jest": "^29.4.5",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "aws-lambda": "^1.0.7"
+  }
+}
