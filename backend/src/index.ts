@@ -21,7 +21,7 @@ const injectCustomerRepository: middy.MiddlewareFn<
   // in a *REAL* application. For this demo it is just a locally created
   // list.
   request.context.repository = new MemoryCustomerRepository(
-    generateCustomers(500)
+    generateCustomers(100)
   );
 };
 

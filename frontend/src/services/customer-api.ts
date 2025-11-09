@@ -6,13 +6,13 @@ export type Customer = {
 };
 
 export type CustomerResponse = {
-  page: number;
+  offset: number;
   total: number;
   items: Customer[];
 };
 
 export type CustomerParams = {
-  page: number;
+  offset: number;
   limit: number;
 };
 
@@ -24,13 +24,13 @@ export class CustomerApi {
   }
 
   async customers({
-    page,
+    offset,
     limit,
   }: Partial<CustomerParams>): Promise<CustomerResponse> {
-    const pageToUse = page ?? 1;
+    const offsetToUse = offset ?? 0;
     const limitToUse = limit ?? 50;
     const res = await fetch(
-      `${this.baseUrl}/customers?page=${pageToUse}&limit=${limitToUse}`
+      `${this.baseUrl}/customers?offset=${offsetToUse}&limit=${limitToUse}`
     );
     const data = res.json();
     return data;

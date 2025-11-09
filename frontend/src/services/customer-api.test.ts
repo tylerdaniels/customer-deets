@@ -22,7 +22,7 @@ describe("CustomerApi", () => {
     const apiResponse: CustomerResponse = {
       total: 1,
       items: [],
-      page: 1,
+      offset: 0,
     };
     mockFetch.mockImplementation(() =>
       Promise.resolve({
@@ -35,8 +35,8 @@ describe("CustomerApi", () => {
     const [path, query] = url.split("?", 2);
     expect(path).toBe("/api/customers");
     const searchParams = new URLSearchParams(query);
-    expect(searchParams.has("page")).toBeTruthy();
-    expect(searchParams.get("page")).toBe("1");
+    expect(searchParams.has("offset")).toBeTruthy();
+    expect(searchParams.get("offset")).toBe("0");
     expect(searchParams.has("limit")).toBeTruthy();
     expect(searchParams.get("limit")).toBe("50");
     expect(response).toBe(apiResponse);
