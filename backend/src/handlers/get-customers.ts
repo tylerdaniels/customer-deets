@@ -1,6 +1,5 @@
 import type { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
-import { CustomerDeetsContext } from "../types";
-import { Customer } from "../services/customer-repository";
+import { Customer, CustomerDeetsContext } from "../types";
 
 export type CustomerResponse = {
   page: number;

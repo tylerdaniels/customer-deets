@@ -1,4 +1,4 @@
-import { APIGatewayProxyEvent, Context as LambdaContext } from "aws-lambda";
+import { APIGatewayProxyEvent } from "aws-lambda";
 
 import { CustomerResponse, getCustomers } from "./get-customers";
 import { CustomerDeetsContext } from "../types";

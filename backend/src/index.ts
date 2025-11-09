@@ -4,8 +4,12 @@ import httpHeaderNormalizer from "@middy/http-header-normalizer";
 import httpRouterHandler, { Route } from "@middy/http-router";
 import type { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import { getCustomers } from "./handlers/get-customers";
-import { CustomerRepository } from "./services/customer-repository";
+import {
+  CustomerRepository,
+  MemoryCustomerRepository,
+} from "./services/customer-repository";
 import { CustomerDeetsContext } from "./types";
+import { generateCustomers } from "./services/customer-generator";
 
 const injectCustomerRepository: middy.MiddlewareFn<
   APIGatewayProxyEvent,
@@ -16,7 +20,9 @@ const injectCustomerRepository: middy.MiddlewareFn<
   // This should being dynamically generated from environment variables
   // in a *REAL* application. For this demo it is just a locally created
   // list.
-  request.context.repository = new CustomerRepository();
+  request.context.repository = new MemoryCustomerRepository(
+    generateCustomers(500)
+  );
 };
 
 const routes: Route<APIGatewayProxyEvent, APIGatewayProxyResult>[] = [
