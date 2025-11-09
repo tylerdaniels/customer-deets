@@ -1,11 +1,11 @@
 import { APIGatewayProxyEvent, Context as LambdaContext } from "aws-lambda";
 
-import { getCustomers } from "./get-customers";
+import { CustomerResponse, getCustomers } from "./get-customers";
 import { CustomerDeetsContext } from "../types";
 import { CustomerRepository } from "../services/customer-repository";
 
 const emptyCustomerRepository: CustomerRepository = {
-  getCustomers: () => [],
+  getCustomers: async () => [],
 };
 
 describe("handler tests", () => {
@@ -15,6 +15,10 @@ describe("handler tests", () => {
       { repository: emptyCustomerRepository } as unknown as CustomerDeetsContext
     );
     expect(result.statusCode).toBe(200);
-    expect(result.body).toBe("[]");
+    expect(result.body).toBeTruthy();
+    const body: CustomerResponse = JSON.parse(result.body);
+    expect(body.page).toBe(1);
+    expect(body.items).toEqual([]);
+    expect(body.total).toBe(0);
   });
 });

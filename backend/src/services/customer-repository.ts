@@ -6,7 +6,7 @@ export type Customer = {
 };
 
 export class CustomerRepository {
-  getCustomers(): Customer[] {
+  async getCustomers(): Promise<Customer[]> {
     return [
       {
         id: "1",

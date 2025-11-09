@@ -2,6 +2,8 @@ import { Link, NavLink, Outlet } from "react-router-dom";
 
 import "./App.scss";
 import { useMemo } from "react";
+import { CustomerApi } from "./services/customer-api";
+import { ApiContextProvider, type ApiContext } from "./context/api";
 
 type NavItem = {
   icon: string;
@@ -16,6 +18,12 @@ const NAVIGATION_ITEMS: NavItem[] = [
 ];
 
 function App() {
+  const context: ApiContext = useMemo(() => {
+    const customerApi = new CustomerApi("/api"); // TODO: Fill-in URL at build time
+    return {
+      customer: customerApi,
+    };
+  }, []);
   const navItems = useMemo(
     () =>
       NAVIGATION_ITEMS.map((n) => (
@@ -50,7 +58,9 @@ function App() {
           <ul className="nav nav-pills flex-column mb-auto">{navItems}</ul>
         </div>
         <div className="flex-grow-1 p-3">
-          <Outlet />
+          <ApiContextProvider value={context}>
+            <Outlet />
+          </ApiContextProvider>
         </div>
       </main>
     </>
