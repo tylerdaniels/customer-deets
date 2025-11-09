@@ -40,7 +40,7 @@ resource "aws_codepipeline" "pipeline" {
       version          = "1"
 
       configuration = {
-        ProjectName = aws_codebuild_project.frontend_validate.name
+        ProjectName = module.frontend_validate.name
       }
     }
     action {
@@ -53,7 +53,7 @@ resource "aws_codepipeline" "pipeline" {
       version          = "1"
 
       configuration = {
-        ProjectName = aws_codebuild_project.frontend_test.name
+        ProjectName = module.frontend_test.name
       }
     }
     action {
@@ -66,7 +66,7 @@ resource "aws_codepipeline" "pipeline" {
       version          = "1"
 
       configuration = {
-        ProjectName = aws_codebuild_project.backend_validate.name
+        ProjectName = module.backend_validate.name
       }
     }
     action {
@@ -79,7 +79,7 @@ resource "aws_codepipeline" "pipeline" {
       version          = "1"
 
       configuration = {
-        ProjectName = aws_codebuild_project.backend_test.name
+        ProjectName = module.backend_test.name
       }
     }
   }
@@ -97,7 +97,7 @@ resource "aws_codepipeline" "pipeline" {
       version          = "1"
 
       configuration = {
-        ProjectName = aws_codebuild_project.frontend_build.name
+        ProjectName = module.frontend_build.name
       }
     }
     action {
@@ -110,7 +110,7 @@ resource "aws_codepipeline" "pipeline" {
       version          = "1"
 
       configuration = {
-        ProjectName = aws_codebuild_project.backend_build.name
+        ProjectName = module.backend_build.name
       }
     }
   }
